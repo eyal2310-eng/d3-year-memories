@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>כיתה ד'3 - השנה שלנו 🍓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --pink:#ff5d8f; --red:#e63946; --cream:#fff7ed; --dark:#3a2a3a; }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { height:100%; overflow:hidden; background:#1a1220; font-family:'Heebo',sans-serif; }
+
+  /* ===== מסך פתיחה ===== */
+  #cover { position:fixed; inset:0; z-index:50; display:flex; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; padding:24px;
+    background:linear-gradient(160deg,#ff8fab 0%,#ff5d8f 45%,#c9184a 100%); }
+  #cover h1 { color:#fff; font-size:clamp(42px,9vw,96px); font-weight:900; text-shadow:0 4px 24px rgba(0,0,0,.25); }
+  #cover h2 { color:#ffe5ec; font-size:clamp(20px,4vw,36px); font-weight:500; margin-top:10px; }
+  #cover .straw { font-size:clamp(60px,12vw,120px); margin-bottom:8px; animation:bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-14px) rotate(6deg)} }
+  #startBtn { margin-top:36px; border:none; cursor:pointer; font-family:inherit; font-weight:700;
+    font-size:clamp(20px,4vw,30px); color:#c9184a; background:#fff; padding:16px 54px; border-radius:60px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3); transition:transform .15s; }
+  #startBtn:active { transform:scale(.95); }
+  #cover .note { color:#ffd6e0; margin-top:18px; font-size:14px; }
+
+  /* ===== במה ===== */
+  #stage { position:fixed; inset:0; display:none; }
+  .slide { position:absolute; inset:0; opacity:0; transition:opacity 1s ease; display:flex;
+    align-items:center; justify-content:center; }
+  .slide.on { opacity:1; }
+  .slide img { width:100%; height:100%; object-fit:contain; }
+  .slide .bg { position:absolute; inset:-40px; background-size:cover; background-position:center;
+    filter:blur(28px) brightness(.45); }
+  .slide .ph { position:relative; max-width:96%; max-height:92%; border-radius:14px; overflow:hidden;
+    box-shadow:0 14px 50px rgba(0,0,0,.55); }
+  .slide .ph img { width:auto; height:auto; max-width:96vw; max-height:88vh; display:block;
+    animation:ken 9s ease-in-out infinite alternate; }
+  @keyframes ken { from{transform:scale(1)} to{transform:scale(1.06)} }
+  .slide video { max-width:96vw; max-height:84vh; border-radius:14px; position:relative;
+    box-shadow:0 14px 50px rgba(0,0,0,.55); }
+
+  /* שקף כותרת פרק */
+  .slide.title-slide { background:linear-gradient(160deg,#ff8fab,#c9184a); flex-direction:column; }
+  .slide.title-slide .big { font-size:clamp(46px,10vw,110px); font-weight:900; color:#fff;
+    text-shadow:0 4px 20px rgba(0,0,0,.3); }
+  .slide.title-slide .sub { font-size:clamp(18px,4vw,32px); color:#ffe5ec; margin-top:14px; font-weight:500; }
+  .slide.title-slide .emo { font-size:clamp(50px,10vw,100px); margin-bottom:10px; }
+
+  /* תגיות */
+  #dateChip { position:fixed; top:max(12px,env(safe-area-inset-top)); right:14px; z-index:20;
+    background:rgba(0,0,0,.55); color:#ffd6e0; padding:6px 16px; border-radius:30px;
+    font-size:15px; font-weight:500; backdrop-filter:blur(6px); display:none; }
+  #counter { position:fixed; top:max(12px,env(safe-area-inset-top)); left:14px; z-index:20;
+    background:rgba(0,0,0,.55); color:#fff; padding:6px 14px; border-radius:30px; font-size:14px;
+    backdrop-filter:blur(6px); display:none; }
+  #bar { position:fixed; top:0; left:0; height:4px; background:var(--pink); width:0%; z-index:30;
+    transition:width .3s linear; }
+
+  /* שליטה */
+  #controls { position:fixed; bottom:max(14px,env(safe-area-inset-bottom)); left:0; right:0; z-index:25;
+    display:none; justify-content:center; gap:14px; }
+  .cbtn { border:none; cursor:pointer; width:52px; height:52px; border-radius:50%;
+    background:rgba(255,255,255,.92); color:#c9184a; font-size:22px; font-weight:900;
+    box-shadow:0 6px 18px rgba(0,0,0,.35); display:flex; align-items:center; justify-content:center; }
+  .cbtn:active { transform:scale(.92); }
+  #ytWrap { position:fixed; bottom:max(14px,env(safe-area-inset-bottom)); right:14px; z-index:24;
+    width:120px; height:68px; border-radius:10px; overflow:hidden; opacity:.85;
+    box-shadow:0 6px 18px rgba(0,0,0,.4); display:none; }
+  #ytWrap iframe { width:100%; height:100%; border:0; }
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="straw">🍓</div>
+  <h1>כיתה ד'3</h1>
+  <h2>השנה שלנו - בית ספר הדר</h2>
+  <h2 style="font-size:clamp(16px,3vw,26px); margin-top:20px;">🎵 "החיים שלנו תותים" / חנן בן ארי</h2>
+  <button id="startBtn">▶ &nbsp;התחילו את המצגת</button>
+  <div class="note">מומלץ עם סאונד 🔊 | אפשר לדפדף עם חיצים או החלקה</div>
+</div>
+
+<div id="bar"></div>
+<div id="dateChip"></div>
+<div id="counter"></div>
+<div id="stage"></div>
+
+<div id="controls">
+  <button class="cbtn" id="nextB" title="הבא">‹</button>
+  <button class="cbtn" id="pauseB" title="השהיה">⏸</button>
+  <button class="cbtn" id="prevB" title="הקודם">›</button>
+</div>
+<div id="ytWrap"></div>
+
+<script src="data.js"></script>
+<script>
+const MONTHS = {'2025-09':'ספטמבר - פותחים שנה! 🎒','2025-10':'אוקטובר 🍂','2025-11':'נובמבר 🌧️',
+  '2025-12':'דצמבר - חנוכה 🕎','2026-01':'ינואר ❄️','2026-02':'פברואר 💜','2026-03':'מרץ - פורים 🎭',
+  '2026-04':'אפריל - פסח 🌸','2026-05':'מאי 🌞','2026-06':'יוני - מסיימים בגדול! 🎉'};
+
+// בניית רשימת שקפים: כותרת חודש לפני כל קבוצת חודש
+const slides = [];
+let lastMonth = '';
+for (const s of (window.SLIDES||[])) {
+  const m = s.date.slice(0,7);
+  if (m !== lastMonth) {
+    slides.push({type:'title', text: MONTHS[m] || m, emo:'🍓'});
+    lastMonth = m;
+  }
+  slides.push(s);
+}
+slides.push({type:'title', text:'החיים שלנו תותים ❤️', emo:'🍓', sub:'באהבה, ילדי והורי ד\'3 | תשפ"ו'});
+
+const stage = document.getElementById('stage');
+const frag = document.createDocumentFragment();
+slides.forEach((s, i) => {
+  const d = document.createElement('div');
+  d.className = 'slide' + (s.type==='title' ? ' title-slide' : '');
+  d.dataset.i = i;
+  if (s.type === 'image') {
+    d.innerHTML = `<div class="bg" style="background-image:url('${s.src}')"></div>
+      <div class="ph"><img loading="lazy" src="${s.src}" alt=""></div>`;
+  } else if (s.type === 'video') {
+    d.innerHTML = `<video preload="none" src="${s.src}" controls playsinline></video>`;
+  } else {
+    d.innerHTML = `<div class="emo">${s.emo||''}</div><div class="big">${s.text}</div>` +
+      (s.sub ? `<div class="sub">${s.sub}</div>` : '');
+  }
+  frag.appendChild(d);
+});
+stage.appendChild(frag);
+const els = stage.children;
+
+let cur = -1, timer = null, playing = true;
+const DUR_IMG = 4500, DUR_TITLE = 3200;
+
+function show(i, dir=1) {
+  if (i < 0) i = slides.length - 1;
+  if (i >= slides.length) i = 0;
+  if (cur >= 0) {
+    els[cur].classList.remove('on');
+    const v = els[cur].querySelector('video');
+    if (v) { v.pause(); }
+  }
+  cur = i;
+  els[cur].classList.add('on');
+  const s = slides[cur];
+  document.getElementById('bar').style.width = ((cur+1)/slides.length*100) + '%';
+  const chip = document.getElementById('dateChip');
+  if (s.date) { chip.style.display='block'; chip.textContent = s.date.split('-').reverse().join('/'); }
+  else chip.style.display='none';
+  const cnt = document.getElementById('counter');
+  cnt.style.display='block'; cnt.textContent = (cur+1) + ' / ' + slides.length;
+  schedule();
+  // טעינה מוקדמת של הבאות
+  for (let k=1;k<=3;k++) {
+    const nx = els[(cur+k)%slides.length].querySelector('img[loading]');
+    if (nx) nx.loading = 'eager';
+  }
+}
+
+function schedule() {
+  clearTimeout(timer);
+  if (!playing) return;
+  const s = slides[cur];
+  if (s.type === 'video') {
+    const v = els[cur].querySelector('video');
+    ytCmd('pauseVideo');
+    v.muted = false;
+    v.play().catch(()=>{});
+    v.onended = () => { ytCmd('playVideo'); show(cur+1); };
+    timer = setTimeout(() => { if (v.paused) { ytCmd('playVideo'); show(cur+1); } }, 60000);
+  } else {
+    timer = setTimeout(() => show(cur+1), s.type==='title' ? DUR_TITLE : DUR_IMG);
+  }
+}
+
+function ytCmd(func) {
+  const f = document.querySelector('#ytWrap iframe');
+  if (f) f.contentWindow.postMessage(JSON.stringify({event:'command',func,args:[]}), '*');
+}
+
+document.getElementById('startBtn').onclick = () => {
+  document.getElementById('cover').style.display = 'none';
+  document.getElementById('stage').style.display = 'block';
+  document.getElementById('controls').style.display = 'flex';
+  const w = document.getElementById('ytWrap');
+  w.style.display = 'block';
+  w.innerHTML = '<iframe src="https://www.youtube.com/embed/EfLHAJrNnsM?enablejsapi=1&autoplay=1&loop=1&playlist=EfLHAJrNnsM&controls=1&rel=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+  show(0);
+};
+
+document.getElementById('nextB').onclick = () => show(cur+1);
+document.getElementById('prevB').onclick = () => show(cur-1);
+const pb = document.getElementById('pauseB');
+pb.onclick = () => { playing = !playing; pb.textContent = playing ? '⏸' : '▶'; schedule(); };
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') show(cur+1);       // RTL: שמאלה = קדימה
+  else if (e.key === 'ArrowRight') show(cur-1);
+  else if (e.key === ' ') { e.preventDefault(); pb.onclick(); }
+});
+
+let tx = null;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+document.addEventListener('touchend', e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx;
+  if (Math.abs(dx) > 50) (dx > 0 ? show(cur+1) : show(cur-1));  // RTL החלקה
+  tx = null;
+}, {passive:true});
+</script>
+</body>
+</html>
